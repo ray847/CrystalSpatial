@@ -1,0 +1,48 @@
+\doxysection{crystal::\+spatial::\+Sub\+Space Class Reference}
+\hypertarget{classcrystal_1_1spatial_1_1_sub_space}{}\label{classcrystal_1_1spatial_1_1_sub_space}\index{crystal::spatial::SubSpace@{crystal::spatial::SubSpace}}
+
+
+{\ttfamily \+\#include $<$subspace.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_af869264cceefd05245f376942a938f2e}\label{classcrystal_1_1spatial_1_1_sub_space_af869264cceefd05245f376942a938f2e} 
+{\bfseries Sub\+Space} (Sub\+Space \texorpdfstring{$\ast$}{*}parent=nullptr, const \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}} \&\doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}=identity$<$ mat3f $>$())
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_a647254e5014ba5288dc574b827a217a4}\label{classcrystal_1_1spatial_1_1_sub_space_a647254e5014ba5288dc574b827a217a4} 
+\doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}} {\bfseries Relative\+Trans} () const
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_ae85466ea73d7d8673158ca2c2a56d931}\label{classcrystal_1_1spatial_1_1_sub_space_ae85466ea73d7d8673158ca2c2a56d931} 
+\doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}} {\bfseries Absolute\+Trans} () const
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_a9fd1eab85ee8d3689fc50b2884c28f35}\label{classcrystal_1_1spatial_1_1_sub_space_a9fd1eab85ee8d3689fc50b2884c28f35} 
+vec2f {\bfseries Relative\+Origin} () const
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_a6cdf841df0126018907a69b2e52a44f1}\label{classcrystal_1_1spatial_1_1_sub_space_a6cdf841df0126018907a69b2e52a44f1} 
+vec2f {\bfseries Absolute\+Origin} () const
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_abdee410af6121ac1d74ff55ae8552c16}\label{classcrystal_1_1spatial_1_1_sub_space_abdee410af6121ac1d74ff55ae8552c16} 
+\doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}} \& {\bfseries Trans} ()
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_a30986a4b0f9eee61c017d3fabe5e9c60}\label{classcrystal_1_1spatial_1_1_sub_space_a30986a4b0f9eee61c017d3fabe5e9c60} 
+\doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}} {\bfseries Trans} () const
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_a92a8dd15065ff92c0d296fe95d9ffc72}\label{classcrystal_1_1spatial_1_1_sub_space_a92a8dd15065ff92c0d296fe95d9ffc72} 
+Sub\+Space \texorpdfstring{$\ast$}{*}\& {\bfseries Parent} ()
+\item 
+\Hypertarget{classcrystal_1_1spatial_1_1_sub_space_ad7336a23a65aad0d91f453d944b863bc}\label{classcrystal_1_1spatial_1_1_sub_space_ad7336a23a65aad0d91f453d944b863bc} 
+Sub\+Space \texorpdfstring{$\ast$}{*} {\bfseries Parent} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A subspace that can apply a affine transformation to its contents.
+
+Variable:\+ Trans() The affine transformation in the forms of a 3x3 matrix. Parent() A pointer to the parent subspace. This can be set to {\ttfamily nullptr} to indicate a root subspace.
+
+Function:\+ Relative\+Trans() Absolute\+Trans() Relative\+Origin() Absolute\+Origin() 
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+include/\+\+Crystal\+Spatial/\+subspace.\+h\end{DoxyCompactItemize}

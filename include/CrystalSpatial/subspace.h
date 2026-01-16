@@ -1,61 +1,50 @@
-#ifndef CRYSTALSPATIAL_SUBSPACE_H_
-#define CRYSTALSPATIAL_SUBSPACE_H_
+#ifndef CRYSTALSPAIAL_SUBSPACE_H_
+#define CRYSTALSPAIAL_SUBSPACE_H_
 
-#include <vector> // std::vector
-#include <memory_resource> // std::pmr
-
-#include <CrystalBase/stable_vector.h> // StableVector
-
-#include "CrystalSpatial/vector.h" // Vec
-#include "CrystalSpatial/transformation.h" // Trans
-#include "CrystalSpatial/index.h" // SpatialIdx
+#include "primitive/transformation.h"
+#include "primitive/vec2f.h"
+#include "primitive/constants.h"
 
 namespace crystal::spatial {
-
-/* Class Declaration (for friend) */
-class Space;
-
+/**
+ * A subspace that can apply a affine transformation to its contents.
+ * 
+ * Variable:
+ *  Trans() The affine transformation in the forms of a 3x3 matrix.
+ *  Parent() A pointer to the parent subspace.
+ *  This can be set to `nullptr` to indicate a root subspace.
+ *
+ * Function:
+ *  RelativeTrans()
+ *  AbsoluteTrans()
+ *  RelativeOrigin()
+ *  AbsoluteOrigin()
+ */
 class SubSpace {
-public:
-  friend Space;
-  using allocator_type = std::pmr::polymorphic_allocator<>;
+ public:
   /* Constructor */
-  SubSpace() : SubSpace(allocator_type{}) {}
-  explicit SubSpace(const allocator_type& allocator):
-    children_(allocator),
-    trans_(),
-    vecs_(allocator) {}
-  SubSpace(const Trans& trans, const allocator_type& allocator = {}):
-    children_(allocator),
-    trans_(trans),
-    vecs_(allocator) {}
-  SubSpace(const SubSpace& other, const allocator_type& allocator = {}):
-    children_(other.children_, allocator),
-    vecs_(other.vecs_, allocator) {}
-  SubSpace(SubSpace&& other, const allocator_type& allocator = {}):
-    children_(std::move(other.children_), allocator),
-    vecs_(std::move(other.vecs_), allocator) {}
-  /* Assignment Operator */
-  SubSpace& operator=(const SubSpace& rhs) = default;
-  SubSpace& operator=(SubSpace&& rhs) = default;
-  /* Destructor */
-  ~SubSpace() = default;
+  SubSpace(SubSpace* parent = nullptr, const trans& trans = identity<mat3f>())
+      : trans_(trans), parent_(parent) {}
   /* Functions */
-  allocator_type get_allocator() const {return children_.get_allocator();}
-  template<typename...Args>
-  VecIdx CreateVec(Args... args) {
-    return vecs_.Emplace(args...);
+  trans RelativeTrans() const { return trans_; }
+  trans AbsoluteTrans() const {
+    return (parent_ == nullptr) ? trans_ : parent_->trans_(Trans());
   }
-  void DeleteVec(VecIdx vec_idx) {
-    vecs_.Erase(vec_idx);
-  }
-private:
-  /* Variables */
-  SubSpaceIdx parent_;
-  std::pmr::vector<SubSpaceIdx> children_;
-  Trans trans_;
-  pmr::StableVector<Vec> vecs_;
+  vec2f RelativeOrigin() const { return Trans()(vec2f{0.0f, 0.0f}); }
+  vec2f AbsoluteOrigin() const { return AbsoluteTrans()(vec2f{0.0f, 0.0f}); }
+
+  /* Accessors */
+  trans& Trans() { return trans_; }
+  trans Trans() const { return trans_; }
+  SubSpace*& Parent() { return parent_; }
+  SubSpace* Parent() const { return parent_; }
+
+ private:
+  trans trans_;
+  SubSpace* parent_;
 };
+
+
 } // namespace crystal::spatial
 
 #endif

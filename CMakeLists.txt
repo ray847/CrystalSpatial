@@ -14,14 +14,7 @@ add_subdirectory(lib/CrystalBase)
 add_library(CrystalSpatial)
 target_sources(CrystalSpatial
   PRIVATE
-    src/index.cpp
-    src/matrix_data.cpp
-    src/space.cpp
     src/spatial.cpp
-    src/subspace.cpp
-    src/transformation.cpp
-    src/vector.cpp
-    src/vector_data.cpp
 )
 target_include_directories(CrystalSpatial
   PUBLIC
@@ -44,7 +37,6 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   target_link_libraries(main
   PRIVATE
     CrystalSpatial
-    stdc++_libbacktrace
   )
   # Testing
   add_subdirectory(test)

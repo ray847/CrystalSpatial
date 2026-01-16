@@ -1,0 +1,75 @@
+\chapter{Crystal\+Spatial Document }
+\hypertarget{md_doc_2structral__design}{}\label{md_doc_2structral__design}\index{CrystalSpatial Document@{CrystalSpatial Document}}
+\label{md_doc_2structral__design_autotoc_md0}%
+\Hypertarget{md_doc_2structral__design_autotoc_md0}%
+\hypertarget{md_doc_2structral__design_autotoc_md1}{}\doxysection{\texorpdfstring{Design Structure}{Design Structure}}\label{md_doc_2structral__design_autotoc_md1}
+This library simplifies the linear algebra system and code structure by {\bfseries{strictly}} seperating primitive types and classes that build upon them. Primitive types are data types that have no ownership relations or responsibilities. Classes may establish some sort of ownership relation or resposibilities {\bfseries{though it is not guaranteed}}.
+
+It is very easy to differenciate between the 2 types since the primitive types follow the snake naming scheme while the classes follow the pascal naming scheme.
+
+Currently, primitive types include:\+
+\begin{DoxyItemize}
+\item {\ttfamily vec2f}
+\item {\ttfamily vec3f}
+\item {\ttfamily mat2f}
+\item {\ttfamily mat3f}
+\item {\ttfamily trans}
+\end{DoxyItemize}
+
+and classes include:\+
+\begin{DoxyItemize}
+\item {\ttfamily Sub\+Space}
+\item {\ttfamily Position}
+\end{DoxyItemize}\hypertarget{md_doc_2structral__design_autotoc_md2}{}\doxysection{\texorpdfstring{Implementations}{Implementations}}\label{md_doc_2structral__design_autotoc_md2}
+\hypertarget{md_doc_2structral__design_autotoc_md3}{}\doxysubsection{\texorpdfstring{Primitives}{Primitives}}\label{md_doc_2structral__design_autotoc_md3}
+All the primitive types are built based on the {\bfseries{GLM}} linear algebra library so the functionalities are mostly preserved. Only the extra functions or exceptions will be touched upon here since the rest should be very self explanatory.\hypertarget{md_doc_2structral__design_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{trans}{trans}}\label{md_doc_2structral__design_autotoc_md4}
+You can use the functional operator to apply a transformation to a vector like:\+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{/*\ Mathematically\ \$\$TransformedVec\ =\ T\ \(\backslash\)cdot\ vec\$\$.\ */}}
+\DoxyCodeLine{trans\ t\{\};}
+\DoxyCodeLine{vec2f\ vec\{1.0f,\ 2.0f\};}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ transformed\_vec\ =\ t(vec);}
+
+\end{DoxyCode}
+ or to another transformation to get the composite transformation:\+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{/*\ Mathematically\ \$\$CompositeTrans=\ T1\ \(\backslash\)cdot\ T2\$\$\ */}}
+\DoxyCodeLine{trans\ t1\{\},\ t2\{\};}
+\DoxyCodeLine{t1.Rotate(123);}
+\DoxyCodeLine{t2.Translate(\{4,\ 5\})}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ composite\_trans\ =\ t1(t2);}
+
+\end{DoxyCode}
+\hypertarget{md_doc_2structral__design_autotoc_md5}{}\doxysubsection{\texorpdfstring{Classes}{Classes}}\label{md_doc_2structral__design_autotoc_md5}
+Classes mostly establish some sort of owership relations so they require more effort in terms of structural design.\hypertarget{md_doc_2structral__design_autotoc_md6}{}\doxysubsubsection{\texorpdfstring{Sub\+Space}{Sub\+Space}}\label{md_doc_2structral__design_autotoc_md6}
+The subspace system workes independently as in it doesn\textquotesingle{}t rely on any other {\bfseries{Classes}} to work. It serves as a basis for other components to be build upon.
+
+Currently a {\ttfamily Sub\+Space} object only contains:\+
+\begin{DoxyItemize}
+\item {\ttfamily Trans()} The transformation to be applied to all of its contents.
+\item {\ttfamily Parent()} A raw pointer to its parent subspace. This can be set to {\ttfamily nullptr} to indicate a root subspace.
+\end{DoxyItemize}
+
+The oddity in here is that a subspace object {\bfseries{does not}} have any knowledge of its child subspaces. This design choice is made due to the following reasons:\+
+\begin{DoxyItemize}
+\item Every subspace object occupies a constant space in memory.
+\item Memory management techniques can be applied more easily with objects with no ownership to memory.
+\item Currently there are no needs to access the children of a subspace.
+\end{DoxyItemize}
+
+With this design choice, the drawbacks are also very much apparent:\+
+\begin{DoxyItemize}
+\item Every subspace object is responsible for their own lifetime management. The classic c++ RAII idom can not be applied to enable automatic memory releasing by only deleting the root subspace.
+\item The child subspaces cannot be accessed from their parent.
+\end{DoxyItemize}
+
+To make up for the memory management hazard, it is recommended to use a monotonic memory buffer to store all subspaces that can be freed altogether to ensure memory safety and also performance.
+
+There are also plans to implement some basic memory management of subspace to make the workflow more seemless.\hypertarget{md_doc_2structral__design_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{Positions}{Positions}}\label{md_doc_2structral__design_autotoc_md7}
+This class is a component to the above subspace system. A {\ttfamily Position} object contains:\+
+\begin{DoxyItemize}
+\item {\ttfamily Sub\+Space()} The subspace it belongs to.
+\item {\ttfamily Vec()} The relative coordinates in that subspace.
+\end{DoxyItemize}
+
+This class also does not have any memory ownership properties for reasons similar to that of subspaces. 

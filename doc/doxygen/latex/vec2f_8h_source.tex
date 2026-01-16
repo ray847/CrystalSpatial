@@ -1,0 +1,28 @@
+\doxysection{vec2f.\+h}
+\hypertarget{vec2f_8h_source}{}\label{vec2f_8h_source}\index{include/CrystalSpatial/primitive/vec2f.h@{include/CrystalSpatial/primitive/vec2f.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CRYSTALSPATIAL\_PRIMITIVE\_VEC2F\_H\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CRYSTALSPATIAL\_PRIMITIVE\_VEC2F\_H\_}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <format>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}glm/ext/vector\_float2.hpp"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }crystal::spatial\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ }vec2f\ =\ glm::vec2;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \}\ \textcolor{comment}{//\ namespace\ crystal::spatial}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }glm\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{inline}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ glm::vec2\&\ vec)\ \{}
+\DoxyCodeLine{00016\ \ \ os\ <<\ std::format(\textcolor{stringliteral}{"{}vec2f(\{\}):\ <\{\},\ \{\}>"{}},\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(\&vec),}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vec.x,\ vec.y);}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00019\ \}}
+\DoxyCodeLine{00020\ \}\ \textcolor{comment}{//\ namespace\ glm}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

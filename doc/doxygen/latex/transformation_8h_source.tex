@@ -1,0 +1,54 @@
+\doxysection{transformation.\+h}
+\hypertarget{transformation_8h_source}{}\label{transformation_8h_source}\index{include/CrystalSpatial/primitive/transformation.h@{include/CrystalSpatial/primitive/transformation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CRYSTALSPATIAL\_PRIMITIVE\_TRANSFORMATION\_H\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CRYSTALSPATIAL\_PRIMITIVE\_TRANSFORMATION\_H\_}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <format>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}glm/ext/matrix\_transform.hpp"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}mat3f.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}vec2f.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}vec3f.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }crystal::spatial\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{struct\ }trans\ :\ \textcolor{keyword}{public}\ mat3f\ \{}
+\DoxyCodeLine{00015\ \ \ trans(\textcolor{keyword}{const}\ mat3f\&\ mat\ =\ glm::identity<mat3f>())\ :\ mat3f(mat)\ \{\}}
+\DoxyCodeLine{00016\ \ \ vec2f\ operator()(\textcolor{keyword}{const}\ vec2f\&\ vec)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00017\ \ \ \ \ vec3f\ tmp\ =\ (*\textcolor{keyword}{this}\ *\ vec3f\{vec.x,\ vec.y,\ 1.0f\});}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{return}\ vec2f\{tmp.x,\ tmp.y\};}
+\DoxyCodeLine{00019\ \ \ \}}
+\DoxyCodeLine{00020\ \ \ trans\ operator()(\textcolor{keyword}{const}\ trans\&\ t)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this}\ *\ t;}
+\DoxyCodeLine{00022\ \ \ \}}
+\DoxyCodeLine{00023\ \ \ trans\&\ Translate(vec2f\ offset)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ (*this)[0][2]\ +=\ offset[0];}
+\DoxyCodeLine{00025\ \ \ \ \ (*this)[1][2]\ +=\ offset[1];}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00027\ \ \ \}}
+\DoxyCodeLine{00028\ \ \ trans\&\ Rotate(\textcolor{keywordtype}{float}\ angle)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ (*this)\ =\ mat3f\{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ glm::cos(angle),\ -\/glm::sin(angle),\ 0.0f,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ glm::sin(angle),\ glm::cos(angle),\ 0.0f,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ 0.0f,\ 0.0f,\ 1.0f}
+\DoxyCodeLine{00033\ \ \ \ \ \}\ *\ (*this);}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00035\ \ \ \}}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{inline}\ std::ostream\&\ operator<<(std::ostream\&\ os,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}\&\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}})\ \{}
+\DoxyCodeLine{00039\ \ \ os\ <<\ std::format(\textcolor{stringliteral}{"{}trans(\{\}):\(\backslash\)n\(\backslash\)t[\{\},\ \{\},\ \{\}]\(\backslash\)n\(\backslash\)t[\{\},\ \{\},\ \{\}]\(\backslash\)n\(\backslash\)t[\{\},\ \{\},\ \{\}]"{}},}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(\&\doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}),}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[0][0],\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[0][1],\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[0][2],}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[1][0],\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[1][1],\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[1][2],}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[2][0],\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[2][1],\ \doxymbox{\hyperlink{structcrystal_1_1spatial_1_1trans}{trans}}[2][2]);}
+\DoxyCodeLine{00044\ \ \ \textcolor{keywordflow}{return}\ os;}
+\DoxyCodeLine{00045\ \}}
+\DoxyCodeLine{00046\ \}\ \textcolor{comment}{//\ namespace\ crystal::spatial}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,19 @@
+\doxysection{constants.\+h}
+\hypertarget{constants_8h_source}{}\label{constants_8h_source}\index{include/CrystalSpatial/primitive/constants.h@{include/CrystalSpatial/primitive/constants.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CRYSTAL\_PRIMITIVE\_CONSTANTS\_H\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CRYSTAL\_PRIMITIVE\_CONSTANTS\_H\_}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}glm/ext/matrix\_transform.hpp"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }crystal::spatial\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ mat>}
+\DoxyCodeLine{00008\ \textcolor{keyword}{consteval}\ mat\ identity()\ \{}
+\DoxyCodeLine{00009\ \ \ \textcolor{keywordflow}{return}\ glm::identity<mat>();}
+\DoxyCodeLine{00010\ \}}
+\DoxyCodeLine{00011\ \}\ \textcolor{comment}{//\ namespace\ crystal::spatial}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
