@@ -1,0 +1,38 @@
+Impl {
+  Space: {
+    shape: class
+
+    subspaces: "vector<SubSpace>"
+    positions: "vector<Position>"
+  }
+  SubSpace: {
+    shape: class
+
+    parent: "size_t"
+    trans: "Trans"
+  }
+  Position: {
+    shape: class
+
+    parent: "size_t"
+    vec: "Vec"
+  }
+
+  Space -> SubSpace
+  Space -> Position
+}
+
+Proxy {
+  SpaceIdx
+  SubSpaceIdx
+  PositionIdx
+}
+
+Proxy.SpaceIdx -> Impl.Space
+
+Proxy.SubSpaceIdx -> Impl.Space
+Proxy.SubSpaceIdx -> Impl.SubSpace
+
+Proxy.PositionIdx -> Impl.Space
+Proxy.PositionIdx -> Impl.SubSpace
+Proxy.PositionIdx -> Impl.Position

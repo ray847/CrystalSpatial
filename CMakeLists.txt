@@ -15,6 +15,7 @@ add_library(CrystalSpatial)
 target_sources(CrystalSpatial
   PRIVATE
     src/spatial.cpp
+    src/format.cpp
 )
 target_include_directories(CrystalSpatial
   PUBLIC

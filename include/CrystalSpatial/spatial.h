@@ -1,12 +1,11 @@
 #ifndef CRYSTALSPATIAL_SPATIAL_H_
 #define CRYSTALSPATIAL_SPATIAL_H_
 
-#include "primitive/vec2f.h"
-#include "primitive/vec3f.h"
-#include "primitive/mat2f.h"
-#include "primitive/mat3f.h"
-#include "primitive/transformation.h"
-#include "subspace.h"
-#include "position.h"
+#include "format.h"
+#include "space.h"
+#include "space_index.h"
+#include "subspace_index.h"
+#include "position_index.h"
+#include "cluster_index.h"
 
 #endif

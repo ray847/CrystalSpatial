@@ -1,30 +1,41 @@
+#include <format>
 #include <iostream>
+
+#include <glm/common.hpp>
+#include "CrystalSpatial/space.h"
 
 #include <CrystalSpatial/spatial.h>
 
 int main() {
-  crystal::spatial::SubSpace root{};
-  crystal::spatial::Position p1{root, {0, 0}};
-  crystal::spatial::trans t{};
-  t.Translate({1, 1});
-  t.Rotate(3.14159 / 4);
-  crystal::spatial::SubSpace ss1{&root, t};
-  crystal::spatial::Position p2{ss1, {1, 1}};
-
-  std::cout << "ROOT" << std::endl;
-  std::cout << "\tTrans: " << root.Trans() << std::endl;
-  std::cout << "\tOrigin: " << root.AbsoluteOrigin() << std::endl;
-
-  std::cout << "SUBSPACE1" << std::endl;
-  std::cout << "\tTrans: " << ss1.Trans() << std::endl;
-  std::cout << "\tOrigin:" << ss1.AbsoluteOrigin() << std::endl;
-
-  std::cout << "POSITION1" << std::endl;
-  std::cout << "\t Relative Position: " << p1.Relative() << std::endl;
-  std::cout << "\t Absolute Position: " << p1.Absolute() << std::endl;
-
-  std::cout << "POSITION2" << std::endl;
-  std::cout << "\t Relative Position: " << p2.Relative() << std::endl;
-  std::cout << "\t Absolute Position: " << p2.Absolute() << std::endl;
+  crystal::spatial::Space<3, float> space;
+  auto root_ss = space.RootSubSpace();
+  root_ss->Trans() = crystal::spatial::Trans<3, float>{
+    2, 0, 0,
+    0, 2, 0,
+    0, 0, 2
+  };
+  auto child_ss = root_ss->CreateChild(crystal::spatial::Trans<3, float>{
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+  });
+  std::cout << std::format("Root SS Trans: {}", root_ss->RelTrans());
+  std::cout << std::format("Child SS RelTrans: {}", child_ss->RelTrans());
+  std::cout << std::format("Child SS AbsTrans: {}", child_ss->AbsTrans());
+  auto pos = root_ss->CreatePosition({1.0, 2.0, 3.0});
+  std::cout << std::format("Pos Rel: {}", pos->Rel());
+  std::cout << std::format("Pos Abs: {}", pos->Abs());
+  auto cluster = child_ss->CreateCluster({{1, 1, 1}});
+  for (auto v : cluster->RelVecs())
+    std::cout << std::format("Cluster Rel: {}", v);
+  for (auto v : cluster->AbsVecs())
+    std::cout << std::format("Cluster Abs: {}", v);
+  auto space_idx = root_ss->SpaceIdx();
   return 0;
 }
