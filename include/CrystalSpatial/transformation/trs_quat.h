@@ -3,6 +3,8 @@
 
 #include <cstddef>
 
+#include <ranges>
+
 #include <glm/detail/qualifier.hpp>
 #include <glm/ext/quaternion_float.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -37,12 +39,19 @@ struct TRSQuatTrans {
   Vec operator()(const Vec& v) const {
     return translate + rotation * scale * v;
   }
+  template <typename VecView>
+  auto operator()(const VecView& vv) const {
+    auto mat = Matrix();
+    return vv | std::views::transform([mat](const Vec& v) -> glm::vec3 {
+             return mat * glm::vec4{v, 1};
+           });
+  }
   TRSQuatTrans operator()(const TRSQuatTrans& t) const {
     return TRSQuatTrans{.translate = translate + t.translate,
                         .scale = scale * t.scale,
                         .rotation = rotation * t.rotation};
   }
-  auto Matrix() const {
+  glm::mat4 Matrix() const {
     return glm::translate(
         glm::mat4_cast(rotation) * glm::diagonal4x4(glm::vec4{scale, 1.0f}),
         translate);

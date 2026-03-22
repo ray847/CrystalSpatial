@@ -3,10 +3,10 @@
 
 #include "format.h"
 #include "space.h"
+#include "object.h"
 #include "space_index.h"
 #include "subspace_index.h"
-#include "position_index.h"
-#include "cluster_index.h"
+#include "object_index.h"
 #include "transformation/trs_quat.h"
 
 #endif

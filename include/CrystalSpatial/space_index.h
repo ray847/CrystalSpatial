@@ -1,15 +1,14 @@
 #ifndef CRYSTALSPAIAL_SPACE_INDEX_H_
 #define CRYSTALSPAIAL_SPACE_INDEX_H_
 
-#include "transformation.h"
 #include "space.h"
 
 namespace crystal::spatial {
 
-template <std::size_t dim, typename T, AnyTrans Trans>
+template <typename SpaceDef>
 class SpaceIdx {
  public:
-  using Space = Space<dim, T, Trans>;
+  using Space = Space<SpaceDef>;
 
   /* Constructor */
   SpaceIdx(Space& space) : space_(space) {}

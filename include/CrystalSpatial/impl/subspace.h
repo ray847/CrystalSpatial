@@ -1,15 +1,15 @@
 #ifndef CRYSTALSPAIAL_SUBSPACE_H_
 #define CRYSTALSPAIAL_SUBSPACE_H_
 
+#include "CrystalSpatial/space_definition.h"
 #include "CrystalSpatial/transformation.h"
 
 namespace crystal::spatial::impl {
   
-template <std::size_t dim, typename T, AnyTrans Trans>
+template <typename SpaceDef>
 struct SubSpace {
-
   std::size_t parent;
-  Trans trans;
+  SpaceDef::Trans trans;
 };
 
 } // namespace crystal::spatial::impl
