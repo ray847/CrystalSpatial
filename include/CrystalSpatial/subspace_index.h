@@ -11,22 +11,21 @@
 namespace crystal::spatial {
 
 /* Forward Declaration */
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class SpaceIdx;
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class PositionIdx;
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class ClusterIdx;
 
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Transformation>
 class SubSpaceIdx {
  public:
-  using SubSpaceImpl = impl::SubSpace<kDim, T>;
-  using Space = Space<kDim, T>;
-  using SpaceIdx = SpaceIdx<kDim, T>;
-  using PositionIdx = PositionIdx<kDim, T>;
-  using ClusterIdx = ClusterIdx<kDim, T>;
-  using Trans = Trans<kDim, T>;
+  using SubSpaceImpl = impl::SubSpace<kDim, T, Transformation>;
+  using Space = Space<kDim, T, Transformation>;
+  using SpaceIdx = SpaceIdx<kDim, T, Transformation>;
+  using PositionIdx = PositionIdx<kDim, T, Transformation>;
+  using ClusterIdx = ClusterIdx<kDim, T, Transformation>;
   using Vec = glm::vec<kDim, T>;
   class SubSpaceProxy {
    public:
@@ -35,7 +34,7 @@ class SubSpaceIdx {
         : space_(space), subspace_(subspace) {}
 
     /* Functions */
-    SubSpaceIdx CreateChild(const Trans& trans = {}) {
+    SubSpaceIdx CreateChild(const Transformation& trans = {}) {
       return space_.CreateSubSpace(subspace_, trans);
     }
     PositionIdx CreatePosition(const Vec& vec = {}) {
@@ -63,7 +62,7 @@ class SubSpaceIdx {
       std::size_t curr = subspace_;
       while (curr != 0) {
         curr = space_.subspaces_[curr].parent;
-        trans = trans * space_.subspaces_[curr].trans;
+        trans = trans(space_.subspaces_[curr].trans);
       }
       return trans;
     }

@@ -7,5 +7,6 @@
 #include "subspace_index.h"
 #include "position_index.h"
 #include "cluster_index.h"
+#include "transformation/trs_quat.h"
 
 #endif

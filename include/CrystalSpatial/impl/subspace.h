@@ -5,12 +5,11 @@
 
 namespace crystal::spatial::impl {
   
-template <std::size_t dim, typename T>
+template <std::size_t dim, typename T, AnyTrans Trans>
 struct SubSpace {
-  using Transformation = Trans<dim, T>;
 
   std::size_t parent;
-  Transformation trans;
+  Trans trans;
 };
 
 } // namespace crystal::spatial::impl

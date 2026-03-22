@@ -14,23 +14,22 @@
 
 namespace crystal::spatial {
 
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class SubSpaceIdx;
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class PositionIdx;
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class ClusterIdx;
 
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class Space {
  public:
-  using SubSpaceImpl = impl::SubSpace<kDim, T>;
+  using SubSpaceImpl = impl::SubSpace<kDim, T, Trans>;
   using PositionImpl = impl::Position<kDim, T>;
   using ClusterImpl = impl::Cluster<kDim, T>;
-  using SubSpaceIdx = SubSpaceIdx<kDim, T>;
-  using PositionIdx = PositionIdx<kDim, T>;
-  using ClusterIdx = ClusterIdx<kDim, T>;
-  using Trans = Trans<kDim, T>;
+  using SubSpaceIdx = SubSpaceIdx<kDim, T, Trans>;
+  using PositionIdx = PositionIdx<kDim, T, Trans>;
+  using ClusterIdx = ClusterIdx<kDim, T, Trans>;
   using Vec = glm::vec<kDim, T>;
 
   /* Functions */
@@ -42,7 +41,7 @@ class Space {
   friend ClusterIdx;
 
   std::vector<SubSpaceImpl> subspaces_{
-      SubSpaceImpl{.parent = 0, .trans = glm::identity<Trans>()}};
+      SubSpaceImpl{.parent = 0, .trans = {}}};
   std::vector<PositionImpl> positions_;
   std::vector<ClusterImpl> clusters_;
 

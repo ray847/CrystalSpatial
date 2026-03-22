@@ -3,12 +3,19 @@
 
 #include <cstddef>
 
-#include "glm/detail/qualifier.hpp"
+#include <concepts>
+
+#include <glm/detail/qualifier.hpp>
 
 namespace crystal::spatial {
 
-template <std::size_t dim = 3, typename T = float>
-using Trans = glm::mat<dim, dim, T>;
+template <typename T>
+concept AnyTrans = requires(const T& ct) {
+  T::kDim;
+  typename T::DType;
+  {ct(ct)}->std::same_as<T>;
+}
+&&std::same_as<decltype(T::kDim), const std::size_t>;
 
 } // namespace crystal::spatial
 

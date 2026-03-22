@@ -3,31 +3,22 @@
 
 #include <glm/common.hpp>
 #include "CrystalSpatial/space.h"
+#include "CrystalSpatial/transformation/trs_quat.h"
 
 #include <CrystalSpatial/spatial.h>
 
 int main() {
-  crystal::spatial::Space<3, float> space;
+  crystal::spatial::Space<3, float, crystal::spatial::TRSQuatTrans> space;
   auto root_ss = space.RootSubSpace();
-  root_ss->Trans() = crystal::spatial::Trans<3, float>{
-    2, 0, 0,
-    0, 2, 0,
-    0, 0, 2
-  };
-  auto child_ss = root_ss->CreateChild(crystal::spatial::Trans<3, float>{
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-  });
-  std::cout << std::format("Root SS Trans: {}", root_ss->RelTrans());
-  std::cout << std::format("Child SS RelTrans: {}", child_ss->RelTrans());
-  std::cout << std::format("Child SS AbsTrans: {}", child_ss->AbsTrans());
+  root_ss->Trans().IncrScale({1, 2, 3});
+  root_ss->Trans().IncrTranslate({-5, -6, -7});
+  auto child_ss = root_ss->CreateChild();
+  child_ss->Trans().IncrRotate(2, {1, 1, 1});
+  std::cout << std::format("Root SS Trans: {}", root_ss->RelTrans().Matrix());
+  std::cout << std::format("Child SS RelTrans: {}",
+                           child_ss->RelTrans().Matrix());
+  std::cout << std::format("Child SS AbsTrans: {}",
+                           child_ss->AbsTrans().Matrix());
   auto pos = root_ss->CreatePosition({1.0, 2.0, 3.0});
   std::cout << std::format("Pos Rel: {}", pos->Rel());
   std::cout << std::format("Pos Abs: {}", pos->Abs());

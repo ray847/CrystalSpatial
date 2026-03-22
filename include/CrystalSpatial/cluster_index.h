@@ -12,19 +12,18 @@
 namespace crystal::spatial {
 
 /* Forward Declaration */
-template <std::size_t dim, typename T>
+template <std::size_t dim, typename T, AnyTrans Trans>
 class SpaceIdx;
-template <std::size_t dim, typename T>
+template <std::size_t dim, typename T, AnyTrans Trans>
 class SubSpaceIdx;
 
-template <std::size_t dim, typename T>
+template <std::size_t dim, typename T, AnyTrans Trans>
 class ClusterIdx {
  public:
   using ClusterImpl = impl::Cluster<dim, T>;
-  using Space = Space<dim, T>;
-  using SpaceIdx_t = SpaceIdx<dim, T>;
-  using SubSpaceIdx_t = SubSpaceIdx<dim, T>;
-  using Trans = Trans<dim, T>;
+  using Space = Space<dim, T, Trans>;
+  using SpaceIdx_t = SpaceIdx<dim, T, Trans>;
+  using SubSpaceIdx_t = SubSpaceIdx<dim, T, Trans>;
   using Vec = glm::vec<dim, T>;
   class ClusterProxy {
    public:
@@ -38,7 +37,7 @@ class ClusterIdx {
     auto AbsVecs() const {
       auto abs_trans = SubSpaceIdx()->AbsTrans();
       return Vecs() | std::views::transform(
-                        [abs_trans](const Vec& v) { return abs_trans * v; });
+                        [abs_trans](const Vec& v) { return abs_trans(v); });
     }
     SubSpaceIdx_t SubSpaceIdx() { return {space_, subspace_}; }
     const SubSpaceIdx_t SubSpaceIdx() const { return {space_, subspace_}; }

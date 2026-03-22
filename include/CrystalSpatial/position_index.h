@@ -9,18 +9,18 @@
 namespace crystal::spatial {
 
 /* Forward Declaration */
-template <std::size_t dim, typename T>
+template <std::size_t dim, typename T, AnyTrans Trans>
 class SpaceIdx;
-template <std::size_t dim, typename T>
+template <std::size_t dim, typename T, AnyTrans Trans>
 class SubSpaceIdx;
 
-template <std::size_t kDim, typename T>
+template <std::size_t kDim, typename T, AnyTrans Trans>
 class PositionIdx {
  public:
   using PositionImpl = impl::Position<kDim, T>;
-  using Space = Space<kDim, T>;
-  using SpaceIdx_t = SpaceIdx<kDim, T>;
-  using SubSpaceIdx_t = SubSpaceIdx<kDim, T>;
+  using Space = Space<kDim, T, Trans>;
+  using SpaceIdx_t = SpaceIdx<kDim, T, Trans>;
+  using SubSpaceIdx_t = SubSpaceIdx<kDim, T, Trans>;
   class PositionProxy {
    public:
     /* Constructor */
@@ -33,7 +33,7 @@ class PositionIdx {
     auto Abs() const {
       auto abs_trans = SubSpaceIdx()->AbsTrans();
       auto vec = Vec();
-      return abs_trans * vec;
+      return abs_trans(vec);
     }
     SubSpaceIdx_t SubSpaceIdx() { return {space_, subspace_}; }
     const SubSpaceIdx_t SubSpaceIdx() const { return {space_, subspace_}; }
