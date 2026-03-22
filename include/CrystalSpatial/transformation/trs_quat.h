@@ -11,15 +11,17 @@
 #include "glm/ext/quaternion_trigonometric.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_operation.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 #include "CrystalSpatial/transformation.h"
-#include "glm/ext/matrix_transform.hpp"
+#include "affine.h"
 
 namespace crystal::spatial {
 
 struct TRSQuatTrans {
   static constexpr std::size_t kDim = 3;
-  using DType = float;
+  static constexpr bool kComplete = false;
+  using CompleteTrans = AffineTrans<3, float>;
   using Vec = glm::vec3;
   using Quat = glm::quat;
 
@@ -30,7 +32,7 @@ struct TRSQuatTrans {
   constexpr void IncrScale(const Vec& v) {
     scale = scale * v;
   }
-  constexpr void IncrRotate(DType angle, const Vec& axis) {
+  constexpr void IncrRotate(float angle, const Vec& axis) {
     rotation = glm::angleAxis(angle, axis) * rotation;
   }
   void IncrTranslate(const Vec& v) {
@@ -46,11 +48,10 @@ struct TRSQuatTrans {
              return mat * glm::vec4{v, 1};
            });
   }
-  TRSQuatTrans operator()(const TRSQuatTrans& child) const {
-    return TRSQuatTrans{.translate = (*this)(child.translate),
-                        .scale = scale * child.scale,
-                        .rotation = rotation * child.rotation};
+  CompleteTrans operator()(const TRSQuatTrans& child) const {
+    return {Matrix() * child.Matrix()};
   }
+  operator CompleteTrans() const { return {Matrix()}; }
   glm::mat4 Matrix() const {
     glm::mat4 t = glm::translate(glm::mat4(1.0f), translate);
     glm::mat4 r = glm::mat4_cast(rotation);

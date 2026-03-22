@@ -27,5 +27,7 @@ int main() {
   std::cout << std::format("Vecs Rel: {}", rel[0]);
   std::cout << std::format("Vecs Abs: {}", abs[0]);
   (void)space.ObjView<glm::vec3>();
+  const auto& cspace = space;
+  (void)cspace.ObjView<std::vector<glm::vec3>>();
   return 0;
 }

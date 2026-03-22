@@ -6,6 +6,7 @@
 
 #include "impl/subspace.h"
 #include "space.h"
+#include "transformation.h"
 
 namespace crystal::spatial {
 
@@ -23,12 +24,14 @@ class SubSpaceIdx {
   using SpaceIdx_t = SpaceIdx<SpaceDef>;
 
   /* Functions */
-  [[nodiscard]] SubSpaceIdx CreateChild(const typename SpaceDef::Trans& trans = {}) {
+  [[nodiscard]] SubSpaceIdx CreateChild(
+      const typename SpaceDef::Trans& trans = {}) {
     return space_.CreateSubSpace(subspace_, trans);
   }
   template <AnyObj Obj, typename ...Args>
   [[nodiscard]] ObjIdx<Obj, SpaceDef> CreateObj(Args&&... args) {
-    return space_.template CreateObj<Obj>(subspace_, std::forward<Args>(args)...);
+    return space_.template CreateObj<Obj>(subspace_,
+                                          std::forward<Args>(args)...);
   }
   SpaceIdx_t SpaceIdx() { return {space_}; }
   const SpaceIdx_t SpaceIdx() const { return {space_}; }
@@ -43,9 +46,11 @@ class SubSpaceIdx {
   auto& Trans() { return Impl().trans; }
   auto Trans() const { return Impl().trans; }
   bool IsRoot() const { return subspace_ == 0; }
-  auto RelTrans() const { return Impl().trans; }
-  auto AbsTrans() const {
-    auto trans = RelTrans();
+  CompleteTrans<typename SpaceDef::Trans> RelTrans() const {
+    return Impl().trans;
+  }
+  CompleteTrans<typename SpaceDef::Trans> AbsTrans() const {
+    CompleteTrans<typename SpaceDef::Trans> trans = RelTrans();
     std::size_t curr = subspace_;
     while (curr != 0) {
       curr = space_.subspaces_[curr].parent;

@@ -1,0 +1,38 @@
+#ifndef CRYSTALSPATIAL_TRANSFORMATION_AFFINE_H_
+#define CRYSTALSPATIAL_TRANSFORMATION_AFFINE_H_
+
+#include <ranges>
+
+#include <glm/ext/matrix_float3x3.hpp>
+
+#include "CrystalSpatial/transformation.h"
+
+namespace crystal::spatial {
+
+template <std::size_t kDim, typename T>
+struct AffineTrans;
+
+template <>
+struct AffineTrans<3, float> {
+  static constexpr bool kComplete = true;
+  using Vec = glm::vec3;
+  using Mat = glm::mat3x3;
+
+  Mat mat;
+
+  Vec operator()(const Vec& v) const {
+    return mat * v;
+  }
+  template <std::ranges::range VecView>
+  auto operator()(const VecView& vv) const {
+    return vv | std::views::transform([&](const Vec& v) -> glm::vec3 {
+             return mat * glm::vec4{v, 1};
+           });
+  }
+  AffineTrans operator()(const AffineTrans& t) const { return {mat * t.mat}; }
+};
+static_assert(AnyTrans<AffineTrans<3, float>>);
+
+}
+
+#endif
