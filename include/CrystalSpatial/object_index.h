@@ -21,10 +21,9 @@ class ObjIdx {
   using SubSpaceIdx_t = SubSpaceIdx<SpaceDef>;
 
   /* Functions */
-  auto Rel() const {
-    return Get();
-  }
-  auto Abs() const {
+  auto Rel() const { return Get(); }
+  [[deprecated("Don't use this with TRSQuatTrans. Output is incorrect.")]] auto
+  Abs() const {
     auto abs_trans = SubSpaceIdx().AbsTrans();
     return abs_trans(Get());
   }
