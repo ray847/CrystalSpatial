@@ -31,16 +31,16 @@ class Space {
   template <AnyObj Obj>
   [[nodiscard]] auto ObjView() {
     auto indices = std::views::iota(0uz, ObjContainer<Obj>().size());
-    return indices |
-           std::views::transform([&](std::size_t idx) -> ObjIdx<Obj, SpaceDef> {
-             return {*this, idx};
-           });
+    return indices | std::views::transform(
+                         [this](std::size_t idx) -> ObjIdx<Obj, SpaceDef> {
+                           return {*this, idx};
+                         });
   }
   template <AnyObj Obj>
   [[nodiscard]] auto ObjView() const {
     auto indices = std::views::iota(0uz, ObjContainer<Obj>().size());
     return indices | std::views::transform(
-                         [&](std::size_t idx) -> CObjIdx<Obj, SpaceDef> {
+                         [this](std::size_t idx) -> CObjIdx<Obj, SpaceDef> {
                            return {*this, idx};
                          });
   }
