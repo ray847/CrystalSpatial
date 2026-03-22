@@ -37,7 +37,7 @@ struct TRSQuatTrans {
     translate += v;
   }
   Vec operator()(const Vec& v) const {
-    return translate + rotation * scale * v;
+    return translate + (rotation * (scale * v));
   }
   template <typename VecView>
   auto operator()(const VecView& vv) const {
@@ -46,15 +46,16 @@ struct TRSQuatTrans {
              return mat * glm::vec4{v, 1};
            });
   }
-  TRSQuatTrans operator()(const TRSQuatTrans& t) const {
-    return TRSQuatTrans{.translate = translate + t.translate,
-                        .scale = scale * t.scale,
-                        .rotation = rotation * t.rotation};
+  TRSQuatTrans operator()(const TRSQuatTrans& child) const {
+    return TRSQuatTrans{.translate = (*this)(child.translate),
+                        .scale = scale * child.scale,
+                        .rotation = rotation * child.rotation};
   }
   glm::mat4 Matrix() const {
-    return glm::translate(
-        glm::mat4_cast(rotation) * glm::diagonal4x4(glm::vec4{scale, 1.0f}),
-        translate);
+    glm::mat4 t = glm::translate(glm::mat4(1.0f), translate);
+    glm::mat4 r = glm::mat4_cast(rotation);
+    glm::mat4 s = glm::scale(glm::mat4(1.0f), scale);
+    return t * r * s;
   }
 };
 

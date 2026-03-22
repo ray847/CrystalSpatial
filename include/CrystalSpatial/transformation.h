@@ -11,7 +11,6 @@ namespace crystal::spatial {
 
 template <typename T>
 concept AnyTrans = requires(const T& ct) {
-  T::kDim;
   typename T::DType;
   {ct(ct)}->std::same_as<T>;
 }
