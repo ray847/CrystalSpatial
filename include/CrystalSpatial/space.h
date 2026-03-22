@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <utility>
+#include <ranges>
 
 #include <glm/ext/matrix_transform.hpp>
 
@@ -25,6 +26,14 @@ class Space {
 
   /* Functions */
   [[nodiscard]] SubSpaceIdx RootSubSpace() { return {*this, 0}; }
+  template <AnyObj Obj>
+  [[nodiscard]] auto ObjView() {
+    auto indices = std::views::iota(0uz, ObjContainer<Obj>().size());
+    return indices |
+           std::views::transform([&](std::size_t idx) -> ObjIdx<Obj, SpaceDef> {
+             return {*this, idx};
+           });
+  }
 
  private:
   friend SubSpaceIdx;
@@ -35,7 +44,8 @@ class Space {
       SubSpaceImpl{.parent = 0, .trans = {}}};
   typename SpaceDef::ObjContainers objs_;
 
-  SubSpaceIdx CreateSubSpace(std::size_t parent, const typename SpaceDef::Trans& trans) {
+  SubSpaceIdx CreateSubSpace(std::size_t parent,
+                             const typename SpaceDef::Trans& trans) {
     assert(parent < subspaces_.size() && "Invalid subspace parent.");
     subspaces_.push_back(SubSpaceImpl{.parent = parent, .trans = trans});
     return {*this, subspaces_.size() - 1};

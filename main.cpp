@@ -26,5 +26,6 @@ int main() {
   auto abs = vecs.Abs();
   std::cout << std::format("Vecs Rel: {}", rel[0]);
   std::cout << std::format("Vecs Abs: {}", abs[0]);
+  (void)space.ObjView<glm::vec3>();
   return 0;
 }
