@@ -16,7 +16,8 @@ concept AnyTrans = requires(const T& ct) {
                   : requires(const T& ct) {
                       typename T::CompleteTrans;
                       {ct(ct)}->std::same_as<typename T::CompleteTrans>;
-                      std::convertible_to<T, typename T::CompleteTrans>;
+                      requires
+                          std::convertible_to<T, typename T::CompleteTrans>;
                     });
 
 template <AnyTrans T>

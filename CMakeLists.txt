@@ -12,6 +12,7 @@ add_subdirectory(lib/CrystalBase)
 
 # Internal Library
 add_library(CrystalSpatial)
+set_property(TARGET CrystalSpatial PROPERTY COMPILE_WARNING_AS_ERROR ON)
 target_sources(CrystalSpatial
   PRIVATE
     src/spatial.cpp
