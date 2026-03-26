@@ -46,6 +46,8 @@ class CSubSpaceIdx {
   friend Space;
   template <AnyObj Obj, typename>
   friend class ObjIdx;
+  template <AnyObj Obj, typename>
+  friend class CObjIdx;
 
   const Space& space_;
   std::size_t subspace_;
