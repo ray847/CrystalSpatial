@@ -37,7 +37,7 @@ class CSubSpaceIdx {
     std::size_t curr = subspace_;
     while (curr != 0) {
       curr = space_.subspaces_[curr].parent;
-      trans = static_cast<typename SpaceDef::Trans>(
+      trans = static_cast<CompleteTrans<typename SpaceDef::Trans>>(
           space_.subspaces_[curr].trans)(trans);
     }
     return trans;
