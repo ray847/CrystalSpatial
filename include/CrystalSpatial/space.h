@@ -16,6 +16,8 @@ namespace crystal::spatial {
 
 template <typename>
 class SubSpaceIdx;
+template <typename>
+class CSubSpaceIdx;
 template <AnyObj Obj, typename SpaceDef>
 class ObjIdx;
 template <AnyObj Obj, typename SpaceDef>
@@ -26,6 +28,7 @@ class Space {
  public:
   using SubSpaceImpl = impl::SubSpace<SpaceDef>;
   using SubSpaceIdx = SubSpaceIdx<SpaceDef>;
+  using CSubSpaceIdx = CSubSpaceIdx<SpaceDef>;
 
   /* Functions */
   [[nodiscard]] SubSpaceIdx RootSubSpace() { return {*this, 0}; }
@@ -48,8 +51,11 @@ class Space {
 
  private:
   friend SubSpaceIdx;
+  friend CSubSpaceIdx;
   template <AnyObj Obj, typename>
   friend class ObjIdx;
+  template <AnyObj Obj, typename>
+  friend class CObjIdx;
 
   std::vector<SubSpaceImpl> subspaces_{
       SubSpaceImpl{.parent = 0, .trans = {}}};
