@@ -9,16 +9,16 @@ namespace crystal::spatial {
 
 /* Forward Declaration */
 template <typename SpaceDef>
-class SpaceIdx;
+class CSpaceIdx;
 template <typename SpaceDef>
-class SubSpaceIdx;
+class CSubSpaceIdx;
 
 template <AnyObj Obj, typename SpaceDef>
 class CObjIdx {
  public:
   using Space = Space<SpaceDef>;
-  using SpaceIdx_t = SpaceIdx<SpaceDef>;
-  using SubSpaceIdx_t = SubSpaceIdx<SpaceDef>;
+  using CSpaceIdx_t = CSpaceIdx<SpaceDef>;
+  using CSubSpaceIdx_t = CSubSpaceIdx<SpaceDef>;
 
   /* Functions */
   auto Rel() const { return Get(); }
@@ -26,10 +26,10 @@ class CObjIdx {
     auto abs_trans = SubSpaceIdx().AbsTrans();
     return abs_trans(Get());
   }
-  const SubSpaceIdx_t SubSpaceIdx() const {
+  CSubSpaceIdx_t SubSpaceIdx() const {
     return {space_, Wrapper().parent_};
   }
-  const SpaceIdx_t SpaceIdx() const { return {space_}; }
+  CSpaceIdx_t SpaceIdx() const { return {space_}; }
 
   /* Accessor */
   const auto& Get() const { return Wrapper().obj_; }

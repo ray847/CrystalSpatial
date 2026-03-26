@@ -1,7 +1,6 @@
 #ifndef CRYSTALSPATIAL_OBJECT_H_
 #define CRYSTALSPATIAL_OBJECT_H_
 
-#include <concepts>
 #include <utility>
 #include "transformation.h"
 

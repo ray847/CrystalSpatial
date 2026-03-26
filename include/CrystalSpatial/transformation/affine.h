@@ -6,6 +6,8 @@
 #include <glm/ext/matrix_float3x3.hpp>
 
 #include "CrystalSpatial/transformation.h"
+#include "glm/ext/matrix_float4x4.hpp"
+#include "glm/ext/vector_float4.hpp"
 
 namespace crystal::spatial {
 
@@ -16,12 +18,12 @@ template <>
 struct AffineTrans<3, float> {
   static constexpr bool kComplete = true;
   using Vec = glm::vec3;
-  using Mat = glm::mat3x3;
+  using Mat = glm::mat4;
 
   Mat mat;
 
   Vec operator()(const Vec& v) const {
-    return mat * v;
+    return mat * glm::vec4{v, 1};
   }
   template <std::ranges::range VecView>
   auto operator()(const VecView& vv) const {

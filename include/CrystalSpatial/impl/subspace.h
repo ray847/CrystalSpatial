@@ -1,8 +1,7 @@
 #ifndef CRYSTALSPAIAL_SUBSPACE_H_
 #define CRYSTALSPAIAL_SUBSPACE_H_
 
-#include "CrystalSpatial/space_definition.h"
-#include "CrystalSpatial/transformation.h"
+#include <cstddef>
 
 namespace crystal::spatial::impl {
   

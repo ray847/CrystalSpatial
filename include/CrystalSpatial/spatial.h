@@ -2,6 +2,7 @@
 #define CRYSTALSPATIAL_SPATIAL_H_
 
 #include "format.h"
+#include "space_definition.h"
 #include "space.h"
 #include "object.h"
 #include "space_index.h"

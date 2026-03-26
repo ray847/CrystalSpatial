@@ -9,6 +9,7 @@
 
 #include <glm/ext/matrix_transform.hpp>
 
+#include "object.h"
 #include "impl/subspace.h"
 
 namespace crystal::spatial {
